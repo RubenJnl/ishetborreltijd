@@ -1,4 +1,6 @@
-# ishetalborreltijd
+# ishetborreltijd
+
+Quick and dirty setup for [ishetborreltijd.nl](https://ishetborreltijd.nl)
 
 ## Project setup
 ```
