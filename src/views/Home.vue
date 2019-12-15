@@ -8,16 +8,14 @@
 </template>
 
 <script>
-// @ is an alias to /src
+
 import Title from '@/components/Title.vue';
-// import Animation from '@/components/Animation.vue';
 import axios from 'axios'
 
 export default {
   name: 'home',
   components: {
     Title,
-    // Animation
   },
   data() {
     return {
@@ -62,7 +60,7 @@ export default {
           // handle success
           const obj = resp.data;
           let rand = Math.floor(Math.random() * obj.data.length);
-          if (day !== 5 && obj.data[rand].title.toLowerCase().indexOf('friday') >= 0){
+          if (day !== 5 && (obj.data[rand].title.toLowerCase().indexOf('friday') >= 0 || obj.data[rand].slug.indexOf('friday') >= 0)){
             rand++;
           }
           if (obj.data[rand] && obj.data[rand].type === 'gif'){
@@ -70,7 +68,8 @@ export default {
           }
         })
         .catch((error) => {
-          // console.warning('auctionDetails ERROR', error);
+          /* eslint-disable no-console */
+          console.warning('auctionDetails ERROR', error);
           if (noWork) {
             // return "https://media0.giphy.com/media/8yFGAh0Zzj71K/giphy.gif"
             return "https://media3.giphy.com/media/mFSEfZlTrgX3CD150c/giphy.gif"
