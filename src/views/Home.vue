@@ -29,32 +29,42 @@ export default {
     updateParagraph() {
       const ja = 'Ja, proost!',
         nee = 'Nee, helaas nog geen borreltijd',
+        weekend = 'Nee, maar het is weekend 🎉',
         date = new Date();
       const hour = date.getHours(),
-        minute = date.getMinutes();
-      const paragraph = hour == 15 && minute >= 30 || hour >=16 ? ja : nee;
+        minute = date.getMinutes(),
+        day = date.getDay();
+      const paragraph = hour == 15 && minute >= 30 || hour >=16 ? ja : day === 6 || day === 0 ? weekend : nee;
+
       return paragraph
     },
     updateGif() {
       const date = new Date();
       const hour = date.getHours(),
-        minute = date.getMinutes();
-      const noWork = hour == 15 && minute >= 30 || hour >=16 ? true : false;
+        minute = date.getMinutes(),
+        day = date.getDay();
 
+      const noWork = (hour == 15 && minute >= 30 || hour >=16) || hour <= 2 && (day === 0 || day === 5 || day === 6) ? true : false;
+      const weekend = day === 6 || day === 0
       let tag = 'working';
       let context = this;
       if (noWork){
-        tag = 'cheers'
+        tag = 'cheers';
+      } else if (weekend) {
+        tag = 'weekend';
       }
       const fetchObj = {
         type: 'GET',
-        url: 'https://api.giphy.com/v1/gifs/search?api_key=pBQwNMPM0LVWZb5ACpUZPthByUY5KQ6o&rating=G' + '&q=' + tag + '&limit=5',
+        url: 'https://api.giphy.com/v1/gifs/search?api_key=pBQwNMPM0LVWZb5ACpUZPthByUY5KQ6o&rating=PG' + '&q=' + tag + '&limit=15',
       };
       axios(fetchObj)
         .then(function (resp) {
           // handle success
           const obj = resp.data;
           let rand = Math.floor(Math.random() * obj.data.length);
+          if (day !== 5 && obj.data[rand].title.toLowerCase().indexOf('friday') >= 0){
+            rand++;
+          }
           if (obj.data[rand] && obj.data[rand].type === 'gif'){
             context.cheers = '"' + obj.data[rand].images.original.url + '"'
           }
