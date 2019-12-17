@@ -53,7 +53,7 @@ export default {
       }
       const fetchObj = {
         type: 'GET',
-        url: 'https://api.giphy.com/v1/gifs/search?api_key=pBQwNMPM0LVWZb5ACpUZPthByUY5KQ6o&rating=PG' + '&q=' + tag + '&limit=15',
+        url: 'https://api.giphy.com/v1/gifs/search?api_key=pBQwNMPM0LVWZb5ACpUZPthByUY5KQ6o&rating=PG' + '&q=' + tag + '&limit=25',
       };
       axios(fetchObj)
         .then(function (resp) {
